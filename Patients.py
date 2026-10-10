@@ -52,3 +52,9 @@ class Patient:
         else:
             print("This record does not belong to this patient.")
 
+
+    # Class method to create a Patient object
+    @classmethod
+    def create_patient(cls, patient_id, name, age, gender):
+        return cls(patient_id, name, age, gender)
+
