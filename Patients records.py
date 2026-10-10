@@ -29,3 +29,15 @@ class PatientRecord:
         print("Patient ID:", self.patient_id)
         print("Visit Date:", self.visit_date)
         print("Record Status:", self.record_status)
+
+
+    # Instance method to update record status
+    def update_record(self, new_status):
+        if new_status not in self.VALID_STATUSES:
+            print("Invalid status. Use Active, Completed, or Archived.")
+            return
+
+        self.record_status = new_status
+        print("Record status updated successfully.")
+
+
