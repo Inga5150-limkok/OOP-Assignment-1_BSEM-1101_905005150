@@ -33,3 +33,11 @@ class Patient:
         self.name = name.strip()
         self.age = age
         self.gender = gender.strip()
+
+    # Instance method to display patient information
+    def display_info(self):
+        print("Patient ID:", self.patient_id)
+        print("Name:", self.name)
+        print("Age:", self.age)
+        print("Gender:", self.gender)
+
