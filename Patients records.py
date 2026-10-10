@@ -23,3 +23,9 @@ class PatientRecord:
         self.visit_date = visit_date.strip()
         self.record_status = record_status
 
+    # Instance method to display record information
+    def display_info(self):
+        print("Record ID:", self.record_id)
+        print("Patient ID:", self.patient_id)
+        print("Visit Date:", self.visit_date)
+        print("Record Status:", self.record_status)
