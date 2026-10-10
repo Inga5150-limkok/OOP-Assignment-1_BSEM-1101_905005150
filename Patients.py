@@ -41,3 +41,14 @@ class Patient:
         print("Age:", self.age)
         print("Gender:", self.gender)
 
+    # Instance method to interact with a patient record
+    def show_patient_record(self, record):
+        if self.patient_id == record.patient_id:
+            print("Patient:", self.name)
+            print("Patient ID:", self.patient_id)
+            print("Record ID:", record.record_id)
+            print("Visit Date:", record.visit_date)
+            print("Record Status:", record.record_status)
+        else:
+            print("This record does not belong to this patient.")
+
