@@ -3,7 +3,8 @@
 Patient Record System
 Module: Object-Oriented Programming 1
 
-This program demonstrates the use of classes, objects, instance methods, class methods, and interaction between objects in a patient record system.
+This program demonstrates the use of classes, objects, instance methods, class methods,
+and interaction between objects in a patient record system.
 """
 # =====================================
 # CLASS 1: PATIENT
