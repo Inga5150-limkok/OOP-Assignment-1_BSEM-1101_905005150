@@ -1,276 +1,214 @@
+
 """
 Patient Record System
-Course: PROG211 - Object-Oriented Programming 1
+Module: PROG211 - Object-Oriented Programming 1
 
-Purpose:
-Demonstrate object-oriented programming using a
-basic patient record management system.
-
-Privacy Notice:
-Use fictional patient information only.
-
-Limitations:
-This educational program does not implement
-authentication, encryption, or secure database storage.
+DPG Privacy Notice:
+Use fictional demonstration data only.
+Do not enter real patient information.
 """
 
-# ==========================================
+
+# =====================================
 # CLASS 1: PATIENT
-# ==========================================
+# =====================================
 
 class Patient:
+
     def __init__(self, patient_id, name, age, gender):
-        if not patient_id.strip():
-            raise ValueError("Patient ID cannot be empty.")
-
-        if not name.strip():
-            raise ValueError("Patient name cannot be empty.")
-
-        if not isinstance(age, int) or not 0 <= age <= 130:
-            raise ValueError("Age must be between 0 and 130.")
-
-        self.patient_id = patient_id.strip()
-        self.name = name.strip()
+        self.patient_id = patient_id
+        self.name = name
         self.age = age
-        self.gender = gender.strip()
+        self.gender = gender
 
-    # Instance method to display patient information
+    # Instance method
     def display_info(self):
         print("Patient ID:", self.patient_id)
         print("Name:", self.name)
         print("Age:", self.age)
         print("Gender:", self.gender)
 
-    # Instance method to interact with a patient record
-    def show_patient_record(self, record):
-        if self.patient_id == record.patient_id:
-            print("Patient:", self.name)
-            print("Patient ID:", self.patient_id)
-            print("Record ID:", record.record_id)
-            print("Visit Date:", record.visit_date)
-            print("Record Status:", record.record_status)
-        else:
-            print("This record does not belong to this patient.")
-
-    # Class method to create a Patient object
+    # Class method
     @classmethod
     def create_patient(cls, patient_id, name, age, gender):
         return cls(patient_id, name, age, gender)
 
+    # Interaction between Patient and PatientRecord objects
+    def display_patient_record(self, record):
+        if self.patient_id == record.patient_id:
+            print("Patient:", self.name)
+            record.display_info()
+        else:
+            print("This record belongs to another patient.")
 
-# ==========================================
+
+# =====================================
 # CLASS 2: PATIENT RECORD
-# ==========================================
+# =====================================
 
 class PatientRecord:
-    VALID_STATUSES = ("Active", "Completed", "Archived")
 
-    def __init__(self, record_id, patient_id, visit_date, record_status):
-        if not record_id.strip():
-            raise ValueError("Record ID cannot be empty.")
+    def __init__(self, record_id, patient_id, visit_date, status):
+        self.record_id = record_id
+        self.patient_id = patient_id
+        self.visit_date = visit_date
+        self.status = status
 
-        if not patient_id.strip():
-            raise ValueError("Patient ID cannot be empty.")
-
-        if not visit_date.strip():
-            raise ValueError("Visit date cannot be empty.")
-
-        if record_status not in self.VALID_STATUSES:
-            raise ValueError("Invalid record status.")
-
-        self.record_id = record_id.strip()
-        self.patient_id = patient_id.strip()
-        self.visit_date = visit_date.strip()
-        self.record_status = record_status
-
-    # Instance method to display record information
+    # Instance method
     def display_info(self):
         print("Record ID:", self.record_id)
         print("Patient ID:", self.patient_id)
         print("Visit Date:", self.visit_date)
-        print("Record Status:", self.record_status)
+        print("Status:", self.status)
 
-    # Instance method to update record status
+    # Instance method to update a record
     def update_record(self, new_status):
-        if new_status not in self.VALID_STATUSES:
-            print("Invalid status. Use Active, Completed, or Archived.")
+        self.status = new_status
+        print("Record updated successfully.")
+
+
+# =====================================
+# CLASS 3: PATIENT RECORD SYSTEM
+# =====================================
+
+class PatientRecordSystem:
+
+    def __init__(self):
+        # Lists are the chosen data structure
+        self.patients = []
+        self.records = []
+
+    # Add a Patient object to the patient list
+    def add_patient(self, patient):
+        for item in self.patients:
+            if item.patient_id == patient.patient_id:
+                print("Patient ID already exists.")
+                return
+
+        self.patients.append(patient)
+        print("Patient added successfully.")
+
+    # Display all Patient objects
+    def display_patients(self):
+        print("\n===== PATIENT LIST =====")
+
+        for patient in self.patients:
+            patient.display_info()
+            print("--------------------")
+
+        print("Total patients:", len(self.patients))
+
+    # Search for a patient by ID
+    def find_patient(self, patient_id):
+        for patient in self.patients:
+            if patient.patient_id == patient_id:
+                return patient
+
+        return None
+
+    # Add a PatientRecord object to the record list
+    def add_record(self, record):
+        patient = self.find_patient(record.patient_id)
+
+        if patient is None:
+            print("Patient does not exist.")
             return
 
-        self.record_status = new_status
-        print("Record status updated successfully.")
+        for item in self.records:
+            if item.record_id == record.record_id:
+                print("Record ID already exists.")
+                return
 
+        self.records.append(record)
+        print("Record added successfully.")
 
-# ==========================================
-# DATA STRUCTURES
-# ==========================================
+    # Display all PatientRecord objects
+    def display_records(self):
+        print("\n===== PATIENT RECORDS =====")
 
-patients = []
-patient_records = []
+        for record in self.records:
+            record.display_info()
+            print("--------------------")
 
+        print("Total records:", len(self.records))
 
-# ==========================================
-# FUNCTIONS TO MANAGE PATIENTS
-# ==========================================
+    # Demonstrate interaction between objects
+    def display_patient_records(self, patient_id):
+        patient = self.find_patient(patient_id)
 
-def add_patient(patient):
-    for existing_patient in patients:
-        if existing_patient.patient_id == patient.patient_id:
-            print("Error: This patient ID already exists.")
+        if patient is None:
+            print("Patient not found.")
             return
 
-    patients.append(patient)
-    print("Patient added successfully.")
+        found = False
+
+        for record in self.records:
+            if record.patient_id == patient.patient_id:
+                patient.display_patient_record(record)
+                found = True
+
+        if not found:
+            print("No records found for this patient.")
 
 
-def display_patients():
-    print("\n===== PATIENT LIST =====")
-
-    if not patients:
-        print("No patients registered.")
-        return
-
-    for patient in patients:
-        patient.display_info()
-        print("-" * 25)
-
-
-def find_patient(patient_id):
-    for patient in patients:
-        if patient.patient_id == patient_id:
-            return patient
-
-    return None
-
-
-# ==========================================
-# FUNCTIONS TO MANAGE PATIENT RECORDS
-# ==========================================
-
-def add_record(record):
-    # Check that the patient exists
-    patient = find_patient(record.patient_id)
-
-    if patient is None:
-        print("Error: Patient ID does not exist.")
-        return
-
-    # Prevent duplicate record IDs
-    for existing_record in patient_records:
-        if existing_record.record_id == record.record_id:
-            print("Error: This record ID already exists.")
-            return
-
-    patient_records.append(record)
-    print("Record added successfully.")
-
-
-def display_records():
-    print("\n===== PATIENT RECORDS =====")
-
-    if not patient_records:
-        print("No patient records available.")
-        return
-
-    for record in patient_records:
-        record.display_info()
-        print("-" * 25)
-
-
-def find_record(record_id):
-    for record in patient_records:
-        if record.record_id == record_id:
-            return record
-
-    return None
-
-
-def display_patient_record(patient_id):
-    patient = find_patient(patient_id)
-
-    if patient is None:
-        print("Patient not found.")
-        return
-
-    matching_records = [
-        record for record in patient_records
-        if record.patient_id == patient.patient_id
-    ]
-
-    if not matching_records:
-        print("No records found for this patient.")
-        return
-
-    for record in matching_records:
-        patient.show_patient_record(record)
-        print("-" * 25)
-
-
-# ==========================================
-# SAMPLE DATA AND PROGRAM TESTS
-# ==========================================
+# =====================================
+# MAIN PROGRAM: TEST THE CLASSES
+# =====================================
 
 def main():
-    print("===================================")
-    print("      PATIENT RECORD SYSTEM")
-    print("===================================")
 
-    # Create patients using the normal constructor
+    # Create the system object
+    system = PatientRecordSystem()
+
+    # Create Patient objects
     patient1 = Patient("P001", "Abdul Kamara", 25, "Male")
     patient2 = Patient("P002", "Fatmata Koroma", 31, "Female")
 
-    # Create a patient using the class method
+    # Create another Patient object using the class method
     patient3 = Patient.create_patient(
         "P003", "Mohamed Conteh", 40, "Male"
     )
 
-    # Add patients to the list
-    add_patient(patient1)
-    add_patient(patient2)
-    add_patient(patient3)
+    # Add patients to the system
+    system.add_patient(patient1)
+    system.add_patient(patient2)
+    system.add_patient(patient3)
 
-    # Display all patients
-    display_patients()
+    # Display the patient list
+    system.display_patients()
 
-    # Create patient records
+    # Create PatientRecord objects
     record1 = PatientRecord(
         "R001", "P001", "2026-10-08", "Active"
     )
 
     record2 = PatientRecord(
-        "R002", "P002", "2026-10-08", "Active"
+        "R002", "P002", "2026-10-09", "Active"
     )
 
     record3 = PatientRecord(
-        "R003", "P003", "2026-10-08", "Active"
+        "R003", "P003", "2026-10-10", "Active"
     )
 
-    # Add records to the list
-    add_record(record1)
-    add_record(record2)
-    add_record(record3)
+    # Add records to the system
+    system.add_record(record1)
+    system.add_record(record2)
+    system.add_record(record3)
 
-    # Display all records
-    display_records()
+    # Display the record list
+    system.display_records()
 
     # Demonstrate interaction between objects
     print("\n===== OBJECT INTERACTION =====")
-    patient1.show_patient_record(record1)
+    system.display_patient_records("P001")
 
-    # Demonstrate a record belonging to another patient
-    print("\n===== RECORD OWNERSHIP CHECK =====")
-    patient1.show_patient_record(record2)
-
-    # Display records for one patient
-    print("\n===== SEARCH BY PATIENT ID =====")
-    display_patient_record("P002")
-
-    # Update a record
+    # Demonstrate an instance method
     print("\n===== UPDATE RECORD =====")
     record1.update_record("Completed")
     record1.display_info()
 
-    print("\nProgram finished successfully.")
+    print("\nProgram completed successfully.")
 
-# Run the program
+
 if __name__ == "__main__":
     main()
