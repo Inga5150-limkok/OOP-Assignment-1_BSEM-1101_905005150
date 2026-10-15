@@ -1,14 +1,10 @@
 
 """
 Patient Record System
-Module: PROG211 - Object-Oriented Programming 1
+Module: Object-Oriented Programming 1
 
-DPG Privacy Notice:
-Use fictional demonstration data only.
-Do not enter real patient information.
+This program demonstrates the use of classes, objects, instance methods, class methods, and interaction between objects in a patient record system.
 """
-
-
 # =====================================
 # CLASS 1: PATIENT
 # =====================================
