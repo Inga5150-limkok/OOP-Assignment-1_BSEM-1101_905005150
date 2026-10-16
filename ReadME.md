@@ -2,6 +2,9 @@
 
 A foundational Python console application built to demonstrate **Object-Oriented Programming (OOP)** concepts, object interaction, and simple data structure management.
 
+## ✍️ Author
+- **Bai Inga tomayor Kamara**
+
 ## 📋 Features
 
 - **Patient Management**: Create, validate, and store patient profiles (ID, Name, Age, Gender).
@@ -43,7 +46,7 @@ python patient_record_system.py
 
 When executed, the system initializes a built-in simulation suite that:
 1. Adds three sample patients to the database.
-2. Prints an structured table of all registered patients.
+2. Prints a structured table of all registered patients.
 3. Attaches three medical logs to those patient entries.
 4. Simulates a clinical interaction to print records linked specifically to a single patient ID.
 5. Modifies a patient's medical status from `Active` to `Completed` using an instance state change.
